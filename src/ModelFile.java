@@ -9,6 +9,6 @@ public class ModelFile {
 	}
 	
 	public String toWurstCode() {
-		return "genDoodad(\"" + fileName.substring(0, fileName.length()-4) + "\",\"" + pathRel.substring(8).replaceAll("\\\\", "\\\\\\\\") + "\")";
+		return "genDoodad(\"" + fileName.substring(0, fileName.length()-4) + "\",\"" + pathRel.substring(8).replaceAll("\\\\", "\\\\\\\\").replaceAll(".mdx",  ".mdl") + "\")";
 	}
 }
