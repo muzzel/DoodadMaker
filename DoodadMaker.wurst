@@ -1,0 +1,46 @@
+package DoodadMaker
+import ObjEditingNatives
+
+public function genDoodad(string name, string path)
+	createObjectDefinition("w3d", newId(), 'ZPfw')
+		..setLvlDataString("dnam", 0, 0, name) // Text - Name
+		..setLvlDataString("dfil", 0, 0, path) // Art - Model File
+		..setLvlDataInt("dvar", 0, 0, 1) // Art - Variations
+		..setLvlDataInt("dshd", 0, 0, 1) // Art - Has Shadow
+		..setLvlDataString("dcat", 0, 0, "O") // Editor - Category (O=Props)
+		..setLvlDataUnreal("dmas", 0, 0, 5.0) // Editor - Maximum Scale
+		..setLvlDataUnreal("dmis", 0, 0, 0.1) // Editor - Minimum Scale
+		..setLvlDataInt("dusr", 0, 0, 1) // Editor - On User-Specified List
+		..setLvlDataString("dtil", 0, 0, "*") // Editor - Tileset (*=All)
+
+// Object Id Generator:
+int array id
+boolean helperActivator = initHelper()
+
+function initHelper() returns boolean
+	for int i = 0 to 2
+		id[i] = '0'
+	return true
+	
+function nextValid(int c) returns int
+	int r = c + 1
+
+	if r == '_' or r == ','or r == '"'or r == '\' or r == '-'
+		r++
+		if r == '_' or r == ','or r == '"'or r == '\' or r == '-'
+			r++
+	return r  
+
+function fourChar(int a, int b, int c, int d) returns int
+	return (((((a*256) + b)*256)+c)*256)+d
+	
+function newId() returns int
+	if helperActivator
+		for i = 0 to 2
+			if id[i] < '~'
+				id[i] = nextValid(id[i])
+				for j = 0 to i-1
+					id[j] = '!'
+				return fourChar('D', id[2], id[1], id[0])
+		error("No vaild id left")
+	return 0
